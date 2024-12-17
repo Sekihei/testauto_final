@@ -28,3 +28,9 @@ https://hoff.is/store2/api/v1/price/1 .. this will show you one products details
 
 https://hoff.is/store2/api/v1/product/list .. this will show you all products that exists on the page.
 
+Done:
+    Password secret (github and yml)
+    POM for login and store
+    Test file with suite of 5 prepared tests
+        Tests finished: 0
+    Added repo webhook in yml (but need to remember what it is for...)
