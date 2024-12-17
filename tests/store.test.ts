@@ -1,5 +1,6 @@
 import { test } from './fixtures.ts';
 import { request, APIRequestContext, expect } from '@playwright/test';
+import AxeBuilder from '@axe-core/playwright';
 import { LoginPage } from '../pages/loginpage'
 import { StorePage } from '../pages/storepage'
 
@@ -31,6 +32,12 @@ test('Buy an apple', async ({page}) =>{
     await storepage.fillCustomerDetails('Name', 'Testgatan 2');
     await storepage.confirmPurchase();
     await storepage.closePurchaseConfirmation();
+
+    await expect(page.getByRole('listitem')).toContainText('1 x Apple - $15');
+    await expect(page.locator('#name')).toContainText('Thank you for your purchase, Name');
+    await expect(page.locator('#address')).toContainText('It will be shipped to: Testgatan 2');
+    await expect(page.locator('#finalReceipt')).toContainText('Total: $15');
+    await expect(page.locator('#finalReceipt')).toContainText('Grand Total: $17');
 })
 
 //Extra test
@@ -61,7 +68,17 @@ test('Get product info by ID', async ({ apiContext }) => {
     //{"id": 1, "name": "Apple", "price": 15, "vat": 3}
 });
 
-//Accesibility
-test('Accesibility', async () =>{
-    
-})
+//Accesibility: Will fail, has length 5
+test.only('Accessibility check on Store page', async ({ page }) => {
+    // Navigate to the page
+    await page.goto('https://hoff.is/store2/?username=Markus&role=consumer');
+
+    // Run Axe accessibility scan
+    const accessibilityScanResults = await new AxeBuilder({ page }).analyze();
+
+    // Log violations
+    console.log('Accessibility Violations:', accessibilityScanResults.violations);
+
+    // Check no violations exist
+    expect(accessibilityScanResults.violations).toHaveLength(0);
+});

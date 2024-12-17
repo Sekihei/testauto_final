@@ -32,5 +32,5 @@ Done:
     Password secret (github and yml)
     POM for login and store
     Test file with suite of 5 prepared tests
-        Tests finished: 0
-    Added repo webhook in yml (but need to remember what it is for...)
+        Tests finished: 2
+    Added repo webhook in yml and used curl for personal token in github
