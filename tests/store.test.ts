@@ -5,7 +5,7 @@ import { StorePage } from '../pages/storepage'
 
 let password: string
 //Login with consumer
-test.only('Login with consumer role', async ({page}) =>{
+test('Login with consumer role', async ({page}) =>{
     const loginpage = new LoginPage(page)
     const storepage = new StorePage(page)
     if (process.env.PASSWORD !== undefined) {
