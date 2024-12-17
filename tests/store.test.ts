@@ -69,7 +69,7 @@ test('Get product info by ID', async ({ apiContext }) => {
 });
 
 //Accesibility: Will fail, has length 5
-test.only('Accessibility check on Store page', async ({ page }) => {
+test('Accessibility check on Store page', async ({ page }) => {
     // Navigate to the page
     await page.goto('https://hoff.is/store2/?username=Markus&role=consumer');
 
