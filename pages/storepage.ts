@@ -30,7 +30,11 @@ export class StorePage {
         await this.page.goto(url);
     }
 
-    async selectProduct(productId: string): Promise<void> {
+    async selectProductMenu(): Promise<void> {
+        await this.selectProduct.click();
+    }
+
+    async selectProductById(productId: string): Promise<void> {
         await this.selectProduct.selectOption(productId);
     }
 

@@ -12,7 +12,6 @@ type ApiContextFixture = {
         baseURL: 'https://hoff.is/store2/api/v1/',
         extraHTTPHeaders: {
           'Content-Type': 'application/json',
-          'api_key': 'your_api_key_here', // Replace this if you use an API key
         },
       });
       await use(context);

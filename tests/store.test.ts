@@ -4,7 +4,7 @@ import { LoginPage } from '../pages/loginpage'
 import { StorePage } from '../pages/storepage'
 
 let password: string
-//Login with consumer
+//Login with consumer (PASSWORD works with in pipeline only)
 test('Login with consumer role', async ({page}) =>{
     const loginpage = new LoginPage(page)
     const storepage = new StorePage(page)
@@ -24,7 +24,8 @@ test('Login with consumer role', async ({page}) =>{
 test('Buy an apple', async ({page}) =>{
     const storepage = new StorePage(page)
     await storepage.navigateToStore('Markus', 'consumer');
-    await storepage.selectProductMenu('1');
+    await storepage.selectProductMenu();
+    await storepage.selectProductById('1');
     await storepage.addToCart();
     await storepage.buyProduct();
     await storepage.fillCustomerDetails('Name', 'Testgatan 2');
