@@ -4,7 +4,6 @@ import { LoginPage } from '../pages/loginpage'
 import { StorePage } from '../pages/storepage'
 
 let password: string
-
 //Login with consumer
 test.only('Login with consumer role', async ({page}) =>{
     const loginpage = new LoginPage(page)
