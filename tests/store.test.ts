@@ -6,7 +6,7 @@ import { StorePage } from '../pages/storepage'
 let password: string
 
 //Login with consumer
-test('Login with consumer role', async ({page}) =>{
+test.only('Login with consumer role', async ({page}) =>{
     const loginpage = new LoginPage(page)
     const storepage = new StorePage(page)
     if (process.env.PASSWORD !== undefined) {
@@ -39,7 +39,7 @@ test('Extra test', async () =>{
 })
 
 //Use API: https://hoff.is/store2/api/v1/price/1
-test.only('Get product info by ID', async ({ apiContext }) => {
+test('Get product info by ID', async ({ apiContext }) => {
     const productId = 1; // Replace with any ID (1-10)
     
     // Make the API call
