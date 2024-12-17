@@ -1,4 +1,5 @@
-import { Locator, Page } from "@playwright/test";
+import AxeBuilder from "@axe-core/playwright";
+import { APIRequestContext, expect, Locator, Page } from "@playwright/test";
 
 export class StorePage {
     readonly page: Page;
@@ -72,5 +73,12 @@ export class StorePage {
 
     async removeBanana(): Promise<void> {
         await this.removeBananaButton.click();
+    }
+
+    async performAccessibilityCheck(selector: string) {
+        const results = await new AxeBuilder({ page: this.page })
+            .include(selector)
+            .analyze();
+        return results.violations;
     }
 }
