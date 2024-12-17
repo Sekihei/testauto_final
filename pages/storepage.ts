@@ -11,6 +11,12 @@ export class StorePage {
     readonly addressInput: Locator;
     readonly confirmPurchaseButton: Locator;
     readonly closeButton: Locator;
+    readonly removeBananaButton: Locator;
+    readonly appleInCart: Locator; 
+    readonly bananaInCart: Locator; 
+    readonly appleQuantity: Locator;
+    readonly bananaQuantity: Locator;
+    //
 
     constructor(page: Page) {
         this.page = page;
@@ -23,6 +29,11 @@ export class StorePage {
         this.addressInput = page.getByLabel('Address:');
         this.confirmPurchaseButton = page.getByRole('button', { name: 'Confirm Purchase' });
         this.closeButton = page.getByText('Close');
+        this.removeBananaButton = page.getByTestId('Banana-remove-button')
+        this.appleInCart = page.getByTestId('Apple-receipt-name')
+        this.bananaInCart = page.getByTestId('Banana-receipt-name')
+        this.appleQuantity = page.getByTestId('Apple-receipt-quantity')
+        this.bananaQuantity = page.getByTestId('Banana-receipt-quantity')
     }
 
     async navigateToStore(username: string, role: string): Promise<void> {
@@ -57,5 +68,9 @@ export class StorePage {
 
     async closePurchaseConfirmation(): Promise<void> {
         await this.closeButton.click();
+    }
+
+    async removeBanana(): Promise<void> {
+        await this.removeBananaButton.click();
     }
 }

@@ -40,9 +40,24 @@ test('Buy an apple', async ({page}) =>{
     await expect(page.locator('#finalReceipt')).toContainText('Grand Total: $17');
 })
 
-//Extra test
-test('Extra test', async () =>{
-    
+//Additional test
+test('Add and remove one product from cart', async ({page}) =>{
+    const storepage = new StorePage(page)
+    await storepage.navigateToStore('Markus', 'consumer');
+    await storepage.selectProductMenu();
+    await storepage.selectProductById('1');
+    await storepage.addToCart();
+    await storepage.selectProductMenu();
+    await storepage.selectProductById('2');
+    await storepage.addToCart();
+
+    await expect(storepage.appleInCart).toHaveCount(1);
+    await expect(storepage.bananaInCart).toHaveCount(1);
+
+    await storepage.removeBanana();
+
+    await expect(storepage.appleInCart).toHaveCount(1);
+    await expect(storepage.bananaInCart).toHaveCount(0);
 })
 
 //Use API: https://hoff.is/store2/api/v1/price/1
@@ -60,25 +75,23 @@ test('Get product info by ID', async ({ apiContext }) => {
     console.log(`Product Info for ID ${productId}:`, responseBody);
 
     // Assertions
-    expect(responseBody).toHaveProperty('id');
-    expect(responseBody).toHaveProperty('name');
-    expect(responseBody).toHaveProperty('price');
-    expect(responseBody).toHaveProperty('vat')
-    expect(responseBody.name).toBe('Apple')
-    //{"id": 1, "name": "Apple", "price": 15, "vat": 3}
+    expect(responseBody).toEqual({
+        id: 1,
+        name: 'Apple',
+        price: 15,
+        vat: 3
+      });
 });
 
-//Accesibility: Will fail, has length 5
-test('Accessibility check on Store page', async ({ page }) => {
-    // Navigate to the page
-    await page.goto('https://hoff.is/store2/?username=Markus&role=consumer');
+//Accesibility: Will fail, has length 1, not 0
+test('Accessibility check on product dropdown', async ({ page }) => {
+    const storepage = new StorePage(page)
+    await storepage.navigateToStore('Markus', 'consumer');
 
-    // Run Axe accessibility scan
-    const accessibilityScanResults = await new AxeBuilder({ page }).analyze();
+    const results = await new AxeBuilder({ page })
+        .include('[data-testid="select-product"]') // Test only the product dropdown
+        .analyze();
 
-    // Log violations
-    console.log('Accessibility Violations:', accessibilityScanResults.violations);
-
-    // Check no violations exist
-    expect(accessibilityScanResults.violations).toHaveLength(0);
+    console.log('Dropdown Violations:', results.violations);
+    expect(results.violations).toHaveLength(0);
 });
